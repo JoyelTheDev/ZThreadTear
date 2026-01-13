@@ -4,11 +4,10 @@ plugins {
 
 dependencies {
     implementation(kotlin("gradle-plugin"))
-    implementation("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.1")
+    implementation("gradle.plugin.com.github.johnrengelman:shadow:8.1.1")
 }
 
 repositories {
     mavenCentral()
     gradlePluginPortal()
-    // Optional: Add maven(url = "https://plugins.gradle.org/m2/") if needed
 }
