@@ -62,8 +62,11 @@ allprojects {
 
     plugins.withType<JavaPlugin> {
         configure<JavaPluginExtension> {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(21))
+            }
         }
 
         if (!skipAutostyle) {
@@ -81,6 +84,10 @@ allprojects {
         tasks {
             withType<JavaCompile>().configureEach {
                 options.encoding = "UTF-8"
+                options.compilerArgs.addAll(listOf(
+                    "--enable-preview",
+                    "--release", "21"
+                ))
             }
 
             withType<ProcessResources>().configureEach {
@@ -103,13 +110,12 @@ allprojects {
                     windowTitle = "Threadtear ${project.name} API"
                     header = "<b>Threadtear</b>"
                     addBooleanOption("Xdoclint:none", true)
-                    addStringOption("source", "8")
-                    if (JavaVersion.current().isJava9Compatible) {
-                        addBooleanOption("html5", true)
-                        links("https://docs.oracle.com/javase/9/docs/api/")
-                    } else {
-                        links("https://docs.oracle.com/javase/8/docs/api/")
-                    }
+                    addStringOption("source", "21")
+                    addBooleanOption("html5", true)
+                    // Links to Java 21 documentation
+                    links("https://docs.oracle.com/en/java/javase/21/docs/api/")
+                    // Enable preview features for Javadoc if using preview features
+                    addBooleanOption("-enable-preview", true)
                 }
             }
 
@@ -123,6 +129,8 @@ allprojects {
                     attributes["Specification-Title"] = "Threadtear"
                     attributes["Implementation-Vendor"] = "Threadtear"
                     attributes["Implementation-Vendor-Id"] = project.group
+                    // Optional: Add Multi-Release JAR manifest entry if using MR-JAR features
+                    // attributes["Multi-Release"] = "true"
                 }
 
                 CrLfSpec(LineEndings.LF).run {
@@ -139,6 +147,18 @@ allprojects {
                         }
                     }
                 }
+            }
+
+            // Configure test tasks for Java 21
+            withType<Test>().configureEach {
+                useJUnitPlatform()
+                jvmArgs = listOf(
+                    "--enable-preview",
+                    "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+                    "--add-opens", "java.base/java.util=ALL-UNNAMED",
+                    "--add-opens", "java.base/java.io=ALL-UNNAMED"
+                )
+                systemProperty("java.util.logging.config.file", "src/test/resources/logging-test.properties")
             }
         }
     }
