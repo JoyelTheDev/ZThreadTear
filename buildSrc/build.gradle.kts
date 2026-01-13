@@ -4,15 +4,11 @@ plugins {
 
 dependencies {
     implementation(kotlin("gradle-plugin"))
-    implementation("com.github.jengelman.gradle.plugins:shadow:5.2.0")
+    implementation("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.1")
 }
 
 repositories {
     mavenCentral()
-    jcenter()
     gradlePluginPortal()
-}
-
-configure<KotlinDslPluginOptions> {
-    experimentalWarning.set(false)
+    // Optional: Add maven(url = "https://plugins.gradle.org/m2/") if needed
 }
