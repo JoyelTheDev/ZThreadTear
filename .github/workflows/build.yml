@@ -21,6 +21,8 @@ jobs:
           distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: warrper 
+        run: ./gradlew wrapper --gradle-version=8.10
       - name: build
         run: ./gradlew clean build 
       - name: capture build artifacts
