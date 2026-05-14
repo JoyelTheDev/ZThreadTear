@@ -10,11 +10,9 @@ dependencies {
     implementation("com.github.weisj:darklaf-theme") { isChanging = true }
     implementation("com.github.weisj:darklaf-property-loader") { isChanging = true }
     implementation("com.github.weisj:darklaf-extensions-rsyntaxarea")
-
     implementation("com.fifesoft:rsyntaxtextarea")
     implementation("com.github.jgraph:jgraphx")
     implementation("ch.qos.logback:logback-classic")
-
     implementation("commons-io:commons-io")
     implementation("org.apache.commons:commons-configuration2")
 }
